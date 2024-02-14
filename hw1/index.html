@@ -26,14 +26,17 @@
 <h1 align="middle">CS 184/284A: Computer Graphics and Imaging, Spring 2024</h1>
 <h1 align="middle">Homework 1: Rasterizer</h1>
 <h2 align="middle">Zarmina Yousafzai and Marilyn Yu</h2>
+<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-marilynjoyce/hw1/index.html">Link Here to Webpage!</a>
 
 <br><br>
 
 <div>
 
 <h2 align="middle">Overview</h2>
-<p>Give a high-level overview of what you implemented in this homework Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.</p>
 
+<p>
+  In this project, we created a program that renders SVG files and applies PNG textures to them. Though this project starts with basic ideas such as drawing, rotating and coloring triangles on the screen, we fine-tuned each idea, which resulted in being able to render more and more complex images. These improvements were evident while comparing one-sample rasterization versus supersampling, and for texture mapping, sampling the nearest texel versus proportionally blending the four nearest texels with bilinear interpolation. It’s amazing how we started with a basic idea, such as taking one sample per pixel for rasterization, and slightly changed it by sampling a couple more times per pixel, and a completely different and more realistic image emerged out of it. This was a theme throughout the project that we enjoyed witnessing: the most complex image renderings are still rooted in simple ideas.
+</p>
 <h2 align="middle">Section I: Rasterization</h2>
 
 <h3 align="middle">Part 1: Rasterizing single-color triangles</h3>
@@ -156,7 +159,37 @@ On the other hand, switching from 1 sample per pixel to 16 samples per pixel for
 </p>
 
 <h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
+<p>
+  Level sampling is the process of selecting the resolution of a texture map based on distance and perspective. To implement it, we must calculate the mipmap level at which we will sample the texture onto the pixel. This is calculated based on the neighboring pixels of a given pixel. There are three different mipmap levels: zero, D, and based on linear interpolation. We calculated all three while also preserving the pixel sampling choices. We also implemented trilinear filtering, which is linear interpolation based on a continuous D value.  When it comes to speed, level sampling is the fastest as it reduces the number of texels that need to be processed by selecting a computed mipmap level. Pixel sampling takes longer as it requires sampling each texel independently. Supersampling takes the longest as we process multiple samples per pixel. When it comes to memory usage, pixel sample uses the least while level sampling and supersampling requires more memory as they must store additional data for each pixel. Pixel sampling can produce high-quality anti-aliasing since each texel is sampled. By the same logic, supersampling can produce even higher quality images since more points are sampled, creating smoother edges. Level sampling also can produce high quality antialiasing images, by producing smoother images that reduce aliasing artifacts as mipmapping already does. 
+</p>
 
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/LOPN.png" align="middle" width="400px"/>
+        <figcaption align="middle">Using level zero and nearest pixel sampling</figcaption>
+      </td>
+      <td>
+        <img src="images/LOPL.png" align="middle" width="400px"/>
+        <figcaption align="middle">Using level zero and bilinear pixel interpolation sampling</figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <td>
+        <img src="images/LNPN.png" align="middle" width="400px"/>
+        <figcaption align="middle">Using nearest level and nearest pixel sampling</figcaption>
+      </td>
+      <td>
+        <img src="images/LNPL.png" align="middle" width="400px"/>
+        <figcaption align="middle">Using nearest level and bilinear pixel interpolation sampling</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
 </body>
+
 </html>
